@@ -6,19 +6,22 @@ import {
   ActivityIndicator,
   ViewStyle,
   TextStyle,
+  View,
 } from 'react-native';
-import { colors, typography, spacing, borderRadius, shadows, touchTargets } from '../../constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { colors, gradients, typography, spacing, borderRadius, shadows, touchTargets } from '../../constants/theme';
 
 interface ButtonProps {
   title: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'gradient';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;
   fullWidth?: boolean;
   style?: ViewStyle;
   textStyle?: TextStyle;
+  icon?: React.ReactNode;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -31,102 +34,95 @@ export const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   style,
   textStyle,
+  icon,
 }) => {
-  const getButtonStyle = (): ViewStyle[] => {
-    const base: ViewStyle[] = [styles.base];
-
-    // Variant styles
-    switch (variant) {
-      case 'primary':
-        base.push(styles.primary);
-        break;
-      case 'secondary':
-        base.push(styles.secondary);
-        break;
-      case 'outline':
-        base.push(styles.outline);
-        break;
-      case 'ghost':
-        base.push(styles.ghost);
-        break;
-    }
-
-    // Size styles
+  const getSizeStyles = () => {
     switch (size) {
       case 'sm':
-        base.push(styles.sizeSm);
-        break;
-      case 'md':
-        base.push(styles.sizeMd);
-        break;
+        return { button: styles.sizeSm, text: styles.textSm };
       case 'lg':
-        base.push(styles.sizeLg);
-        break;
+        return { button: styles.sizeLg, text: styles.textLg };
+      default:
+        return { button: styles.sizeMd, text: styles.textMd };
     }
-
-    if (fullWidth) {
-      base.push(styles.fullWidth);
-    }
-
-    if (disabled) {
-      base.push(styles.disabled);
-    }
-
-    return base;
   };
 
-  const getTextStyle = (): TextStyle[] => {
-    const base: TextStyle[] = [styles.text];
+  const sizeStyles = getSizeStyles();
 
-    switch (variant) {
-      case 'primary':
-        base.push(styles.textPrimary);
-        break;
-      case 'secondary':
-        base.push(styles.textSecondary);
-        break;
-      case 'outline':
-        base.push(styles.textOutline);
-        break;
-      case 'ghost':
-        base.push(styles.textGhost);
-        break;
-    }
+  const renderContent = () => (
+    <View style={styles.contentContainer}>
+      {loading ? (
+        <ActivityIndicator
+          color={variant === 'outline' || variant === 'ghost' ? colors.primary : colors.text.inverse}
+          size="small"
+        />
+      ) : (
+        <>
+          {icon && <View style={styles.iconContainer}>{icon}</View>}
+          <Text
+            style={[
+              styles.text,
+              sizeStyles.text,
+              variant === 'outline' && styles.textOutline,
+              variant === 'ghost' && styles.textGhost,
+              variant === 'secondary' && styles.textSecondary,
+              (variant === 'primary' || variant === 'gradient') && styles.textPrimary,
+              disabled && styles.textDisabled,
+              textStyle,
+            ]}
+          >
+            {title}
+          </Text>
+        </>
+      )}
+    </View>
+  );
 
-    switch (size) {
-      case 'sm':
-        base.push(styles.textSm);
-        break;
-      case 'md':
-        base.push(styles.textMd);
-        break;
-      case 'lg':
-        base.push(styles.textLg);
-        break;
-    }
+  // Gradient button
+  if (variant === 'gradient' || variant === 'primary') {
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        disabled={disabled || loading}
+        activeOpacity={0.8}
+        style={[fullWidth && styles.fullWidth, style]}
+      >
+        <LinearGradient
+          colors={gradients.button as [string, string]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={[
+            styles.base,
+            styles.gradient,
+            sizeStyles.button,
+            fullWidth && styles.fullWidth,
+            disabled && styles.disabled,
+          ]}
+        >
+          {renderContent()}
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
 
-    if (disabled) {
-      base.push(styles.textDisabled);
-    }
-
-    return base;
-  };
-
+  // Non-gradient buttons
   return (
     <TouchableOpacity
-      style={[...getButtonStyle(), style]}
+      style={[
+        styles.base,
+        variant === 'secondary' && styles.secondary,
+        variant === 'outline' && styles.outline,
+        variant === 'ghost' && styles.ghost,
+        sizeStyles.button,
+        fullWidth && styles.fullWidth,
+        disabled && styles.disabled,
+        style,
+      ]}
       onPress={onPress}
       disabled={disabled || loading}
       activeOpacity={0.8}
     >
-      {loading ? (
-        <ActivityIndicator
-          color={variant === 'primary' ? colors.text.inverse : colors.primary}
-          size="small"
-        />
-      ) : (
-        <Text style={[...getTextStyle(), textStyle]}>{title}</Text>
-      )}
+      {renderContent()}
     </TouchableOpacity>
   );
 };
@@ -135,17 +131,27 @@ const styles = StyleSheet.create({
   base: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: borderRadius.lg,
+    borderRadius: borderRadius['2xl'],
     minHeight: touchTargets.minimum,
+    flexDirection: 'row',
+  },
+
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  iconContainer: {
+    marginRight: spacing.sm,
   },
 
   // Variants
-  primary: {
-    backgroundColor: colors.primary,
+  gradient: {
     ...shadows.button,
   },
   secondary: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.pink[100],
   },
   outline: {
     backgroundColor: 'transparent',
@@ -161,6 +167,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     minHeight: 36,
+    borderRadius: borderRadius.lg,
   },
   sizeMd: {
     paddingHorizontal: spacing.lg,
@@ -171,6 +178,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.lg,
     minHeight: touchTargets.large,
+    borderRadius: borderRadius['3xl'],
   },
 
   fullWidth: {
@@ -191,7 +199,7 @@ const styles = StyleSheet.create({
     color: colors.text.inverse,
   },
   textSecondary: {
-    color: colors.text.primary,
+    color: colors.primary,
   },
   textOutline: {
     color: colors.primary,

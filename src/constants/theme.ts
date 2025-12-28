@@ -1,42 +1,67 @@
 /**
  * Lovebirds Design Tokens
  *
- * Warm, gentle, encouraging — never guilt-based.
- * Clean, joyful, thoughtful — premium but approachable.
- * Feels like a "relationship coach + best friend."
+ * Pink-to-purple gradient theme inspired by Figma design.
+ * Romantic, warm, and modern aesthetic.
  */
 
 export const colors = {
+  // Gradient colors (pink to purple)
+  gradient: {
+    start: '#EC4899', // pink-500
+    middle: '#A855F7', // purple-500
+    end: '#8B5CF6', // violet-500
+  },
+
+  // Pink palette
+  pink: {
+    50: '#FDF2F8',
+    100: '#FCE7F3',
+    200: '#FBCFE8',
+    300: '#F9A8D4',
+    400: '#F472B6',
+    500: '#EC4899',
+    600: '#DB2777',
+    700: '#BE185D',
+  },
+
+  // Purple palette
+  purple: {
+    50: '#FAF5FF',
+    100: '#F3E8FF',
+    200: '#E9D5FF',
+    300: '#D8B4FE',
+    400: '#C084FC',
+    500: '#A855F7',
+    600: '#9333EA',
+    700: '#7C3AED',
+  },
+
   // Background
-  background: '#F7F8F6',
+  background: '#FFFFFF',
+  backgroundGradient: ['#FDF2F8', '#FAF5FF'], // Light pink to light purple
 
-  // Primary - Deep Purple (call-to-action, emphasis)
-  primary: '#6A53FF',
-  primaryLight: '#8B7AFF',
-  primaryDark: '#5242CC',
+  // Primary - Pink (main actions)
+  primary: '#EC4899',
+  primaryLight: '#F472B6',
+  primaryDark: '#DB2777',
 
-  // Accent - Coral (gentle highlights, microcopy)
-  accent: '#FF7A73',
-  accentLight: '#FF9A95',
-  accentDark: '#E65C55',
+  // Accent - Purple (highlights)
+  accent: '#A855F7',
+  accentLight: '#C084FC',
+  accentDark: '#9333EA',
 
-  // Secondary - Soft Peach (cards, secondary CTAs)
-  secondary: '#FFD9A6',
-  secondaryLight: '#FFE5C4',
-  secondaryDark: '#FFCA7A',
-
-  // Accent 2 - Lavender (hero headers, subtle areas)
-  lavender: '#E9E4FF',
-  lavenderLight: '#F5F2FF',
-  lavenderDark: '#D4CCFF',
+  // Secondary - Light pink
+  secondary: '#FCE7F3',
+  secondaryDark: '#FBCFE8',
 
   // Card background
   card: '#FFFFFF',
-  cardShadow: 'rgba(16, 24, 40, 0.06)',
+  cardShadow: 'rgba(236, 72, 153, 0.1)',
 
   // Text
   text: {
-    primary: '#111827',
+    primary: '#1F2937',
     secondary: '#6B7280',
     muted: '#9CA3AF',
     inverse: '#FFFFFF',
@@ -45,6 +70,7 @@ export const colors = {
   // Status colors
   success: '#10B981',
   successLight: '#D1FAE5',
+  successBg: '#ECFDF5',
   warning: '#F59E0B',
   warningLight: '#FEF3C7',
   error: '#EF4444',
@@ -53,10 +79,32 @@ export const colors = {
   // Borders
   border: '#E5E7EB',
   borderLight: '#F3F4F6',
+  borderPink: '#FBCFE8',
+
+  // Special
+  overlay: 'rgba(0, 0, 0, 0.5)',
+  glass: 'rgba(255, 255, 255, 0.8)',
+};
+
+export const gradients = {
+  // Main gradient (pink to purple)
+  primary: ['#EC4899', '#A855F7'],
+  primaryReverse: ['#A855F7', '#EC4899'],
+
+  // Lighter gradients for backgrounds
+  background: ['#FDF2F8', '#FAF5FF'],
+  backgroundDark: ['#FCE7F3', '#F3E8FF'],
+
+  // Button gradients
+  button: ['#EC4899', '#A855F7'],
+  buttonHover: ['#DB2777', '#9333EA'],
+
+  // Card accent gradients
+  pinkAccent: ['#FDF2F8', '#FCE7F3'],
+  purpleAccent: ['#FAF5FF', '#F3E8FF'],
 };
 
 export const typography = {
-  // Font family - Inter or system UI
   fontFamily: {
     regular: 'System',
     medium: 'System',
@@ -64,26 +112,24 @@ export const typography = {
     bold: 'System',
   },
 
-  // Font sizes (mobile-ready, slightly larger)
   fontSize: {
     xs: 12,
     sm: 14,
-    base: 16,      // Body / Primary copy
-    lg: 18,        // H2 / Section heading
-    xl: 20,        // H2 / Section heading
-    '2xl': 22,     // H1 / Screen title
-    '3xl': 26,     // H1 / Screen title (larger)
+    base: 16,
+    lg: 18,
+    xl: 20,
+    '2xl': 24,
+    '3xl': 28,
     '4xl': 32,
+    '5xl': 36,
   },
 
-  // Line height - generous spacing
   lineHeight: {
     tight: 1.2,
     normal: 1.4,
     relaxed: 1.6,
   },
 
-  // Font weights
   fontWeight: {
     regular: '400' as const,
     medium: '500' as const,
@@ -101,48 +147,53 @@ export const spacing = {
   '2xl': 40,
   '3xl': 48,
   '4xl': 64,
-
-  // Standard horizontal padding (mobile)
   screenPadding: 20,
 };
 
 export const borderRadius = {
   sm: 8,
   md: 12,
-  lg: 16,    // Card corner radius (distinct, friendly)
+  lg: 16,
   xl: 20,
   '2xl': 24,
+  '3xl': 32,
   full: 9999,
 };
 
 export const shadows = {
-  // Soft, subtle shadows for cards
   card: {
-    shadowColor: '#101828',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.06,
-    shadowRadius: 14,
+    shadowColor: '#EC4899',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
     elevation: 3,
   },
 
   cardLight: {
-    shadowColor: '#101828',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
+    shadowOpacity: 0.05,
     shadowRadius: 8,
     elevation: 2,
   },
 
   button: {
-    shadowColor: '#6A53FF',
+    shadowColor: '#EC4899',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 4,
   },
+
+  glow: {
+    shadowColor: '#EC4899',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.4,
+    shadowRadius: 20,
+    elevation: 5,
+  },
 };
 
-// Minimum tappable size (44x44 px)
 export const touchTargets = {
   minimum: 44,
   comfortable: 48,
@@ -163,9 +214,9 @@ export const animations = {
   },
 };
 
-// Combined theme object
 export const theme = {
   colors,
+  gradients,
   typography,
   spacing,
   borderRadius,
