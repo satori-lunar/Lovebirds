@@ -1,9 +1,43 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuthStore } from '../stores';
 import { RootStackParamList } from '../types';
 import { colors, typography } from '../constants/theme';
+
+// Web linking configuration
+const linking = {
+  prefixes: [],
+  config: {
+    screens: {
+      Welcome: '',
+      Login: 'login',
+      SignUp: 'signup',
+      PartnerInvite: 'invite',
+      OnboardingLoveLanguage: 'onboarding/love-language',
+      OnboardingLikes: 'onboarding/likes',
+      OnboardingDislikes: 'onboarding/dislikes',
+      OnboardingBudget: 'onboarding/budget',
+      OnboardingEnergy: 'onboarding/energy',
+      OnboardingGoals: 'onboarding/goals',
+      OnboardingComplete: 'onboarding/complete',
+      MainTabs: 'home',
+      DailyQuestion: 'daily-question',
+      DailyQuestionAnswer: 'daily-question/answer',
+      DailyQuestionWaiting: 'daily-question/waiting',
+      DailyQuestionGuess: 'daily-question/guess',
+      DailyQuestionResult: 'daily-question/result',
+      DailyQuestionComplete: 'daily-question/complete',
+      PlanDate: 'dates/plan',
+      DateSwipe: 'dates/swipe',
+      DateSwipeResult: 'dates/swipe-result',
+      CreateMemory: 'memories/create',
+      MemoryDetail: 'memories/:memoryId',
+      Settings: 'settings',
+    },
+  },
+};
 
 // Auth Screens
 import WelcomeScreen from '../screens/auth/WelcomeScreen';
@@ -49,7 +83,7 @@ const RootNavigator: React.FC = () => {
   const { isAuthenticated, isOnboardingComplete } = useAuthStore();
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
