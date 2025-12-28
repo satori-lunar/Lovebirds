@@ -1,25 +1,31 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { enableScreens } from 'react-native-screens';
-import RootNavigator from './src/navigation/RootNavigator';
-import { colors } from './src/constants/theme';
+import { View, Text, StyleSheet } from 'react-native';
 
-// Enable react-native-screens
-enableScreens(true);
-
+// Minimal test app to debug blank page issue
 export default function App() {
-  // Use View wrapper for web compatibility
-  const Wrapper = Platform.OS === 'web' ? View : GestureHandlerRootView;
-
   return (
-    <Wrapper style={{ flex: 1, backgroundColor: colors.background }}>
-      <SafeAreaProvider>
-        <StatusBar style="dark" backgroundColor={colors.background} />
-        <RootNavigator />
-      </SafeAreaProvider>
-    </Wrapper>
+    <View style={styles.container}>
+      <Text style={styles.title}>Lovebirds</Text>
+      <Text style={styles.subtitle}>App is loading...</Text>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FAF9F7',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#6A53FF',
+    marginBottom: 16,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#666666',
+  },
+});
