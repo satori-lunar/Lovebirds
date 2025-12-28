@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { crossPlatformStorage } from '../utils/storage';
 import {
   DateIdea,
   PlannedDate,
@@ -201,7 +201,7 @@ export const useDatesStore = create<DatesStoreState>()(
     }),
     {
       name: 'lovebirds-dates',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => crossPlatformStorage),
       partialize: (state) => ({
         plannedDates: state.plannedDates,
       }),

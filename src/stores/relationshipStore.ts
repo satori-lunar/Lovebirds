@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { crossPlatformStorage } from '../utils/storage';
 import { User, Relationship, ImportantDate, RelationshipStatus } from '../types';
 
 interface RelationshipState {
@@ -127,7 +127,7 @@ export const useRelationshipStore = create<RelationshipState>()(
     }),
     {
       name: 'lovebirds-relationship',
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => crossPlatformStorage),
       partialize: (state) => ({
         relationship: state.relationship,
         partner: state.partner,
